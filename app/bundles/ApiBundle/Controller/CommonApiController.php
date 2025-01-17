@@ -330,7 +330,9 @@ class CommonApiController extends FetchCommonApiController
             return $this->accessDenied();
         }
 
-        return $this->processForm($request, $entity, $parameters, 'POST');
+        $method = $entity->getId() ? 'PATCH' : 'POST';
+
+        return $this->processForm($request, $entity, $parameters, $method);
     }
 
     /**
