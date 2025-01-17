@@ -1224,8 +1224,9 @@ class MailHelper
      */
     public function setEmail(Email $email, $allowBcc = true, $slots = [], $assetAttachments = [], $ignoreTrackingPixel = false): bool
     {
-        if ($this->coreParametersHelper->get(ConfigType::MINIFY_EMAIL_HTML)) {
-            $email->setCustomHtml(InputHelper::minifyHTML($email->getCustomHtml()));
+        $customHtml = $email->getCustomHtml();
+        if ($this->coreParametersHelper->get(ConfigType::MINIFY_EMAIL_HTML) && null != $customHtml) {
+            $email->setCustomHtml(InputHelper::minifyHTML($customHtml));
         }
 
         $this->email = $email;
@@ -1250,7 +1251,6 @@ class MailHelper
         }
 
         $template   = $email->getTemplate();
-        $customHtml = $email->getCustomHtml();
         // Process emails created by Mautic v1
         if (empty($customHtml) && $template) {
             if (empty($slots)) {
