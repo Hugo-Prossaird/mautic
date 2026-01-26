@@ -155,7 +155,7 @@ Mautic.addDwcFilter = function (elId, elObj) {
 
     if (isSpecial) {
         var templateField = fieldType;
-        if (fieldType == 'boolean' || fieldType == 'multiselect') {
+        if (fieldType == 'boolean' || fieldType == 'multiselect' || fieldType == 'leadlist') {
             templateField = 'select';
         }
 
