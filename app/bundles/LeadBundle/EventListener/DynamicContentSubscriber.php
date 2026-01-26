@@ -29,8 +29,12 @@ final class DynamicContentSubscriber implements EventSubscriberInterface
         foreach ($event->getFilters() as $filter) {
             if ('leadlist' === $filter['type']) {
                 // Segment membership evaluation. Check if contact/segment relationship is correct.
+                $segmentIds = $filter['filter'];
+                if (!is_array($segmentIds)) {
+                    $segmentIds = !empty($segmentIds) ? [$segmentIds] : null;
+                }
                 $event->setIsMatched(
-                    $this->isContactSegmentRelationshipValid($event->getContact(), $filter['operator'], $filter['filter'])
+                    $this->isContactSegmentRelationshipValid($event->getContact(), $filter['operator'], $segmentIds)
                 );
                 $event->setIsEvaluated(true);
 
