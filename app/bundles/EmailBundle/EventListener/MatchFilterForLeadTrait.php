@@ -21,7 +21,12 @@ trait MatchFilterForLeadTrait
             $primaryCompany = ($isCompanyField && !empty($lead['companies'])) ? $lead['companies'][0] : null;
 
             if ('leadlist' === $data['type'] && isset($this->segmentRepository) && $this->segmentRepository instanceof LeadListRepository) {
-                return $this->isContactSegmentRelationshipValid($this->segmentRepository, (int) $lead['id'], $data['operator'], $data['filter']);
+                $segmentIds = $data['filter'];
+                if (!is_array($segmentIds)) {
+                    $segmentIds = !empty($segmentIds) ? [$segmentIds] : null;
+                }
+
+                return $this->isContactSegmentRelationshipValid($this->segmentRepository, (int) $lead['id'], $data['operator'], $segmentIds);
             }
 
             if ($isCompanyField) {
